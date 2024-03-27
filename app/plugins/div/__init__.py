@@ -1,14 +1,19 @@
-import sys
+import logging
 from app.commands import Command
 
 class DivideCommand(Command):
-    def __init__(self, value1, value2):
-        self.value1 = value1
-        self.value2 = value2
-
     def execute(self):
-        if self.value2 == 0:
-            print("Error: Division by zero.")
-        else:
-            result = self.value1 / self.value2
-            print(result)
+        try:
+            value1 = int(input('Enter the first value >> '))
+            value2 = int(input('Enter the second value >> '))
+            if value2 == 0:
+                print("Error: Division by zero is not allowed.")
+            else:
+                result = value1 / value2
+                print(f"The quotient of {value1} divided by {value2} is {result}")
+            
+            logging.info(f"DivideCommand executed with result: {result}")
+        except ValueError:
+            print("Please enter valid integers.")
+            logging.error("Invalid input for DivideCommand.")
+            
