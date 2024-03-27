@@ -1,12 +1,11 @@
-import logging
+import sys
+from app.commands import Command
 
-class AdditionCommand:
-    def execute(self, a, b):
-        result = a + b
-        logging.info(f"Addition result: {result}")
-        print(f"Addition result: {result}")
+class AddCommand(Command):
+    def __init__(self, value1, value2):
+        self.value1 = value1
+        self.value2 = value2
 
-# Example usage:
-logging.basicConfig(level=logging.INFO)
-add_command = AdditionCommand()
-add_command.execute(1, 2)
+    def execute(self):
+        result = self.value1 + self.value2
+        print(value = value1 + value2)

@@ -1,12 +1,11 @@
-import logging
+import sys
+from app.commands import Command
 
-class SubtractionCommand:
-    def execute(self, a, b):
-        result = a - b
-        logging.info(f"Subtraction result: {result}")
-        print(f"Subtraction result: {result}")
+class SubtractCommand(Command):
+    def __init__(self, value1, value2):
+        self.value1 = value1
+        self.value2 = value2
 
-# Example usage:
-logging.basicConfig(level=logging.INFO)
-sub_command = SubtractionCommand()
-sub_command.execute(3, 1)
+    def execute(self):
+        result = self.value1 - self.value2
+        print(result)

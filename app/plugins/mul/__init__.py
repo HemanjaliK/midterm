@@ -1,12 +1,11 @@
-import logging
+import sys
+from app.commands import Command
 
-class MultiplicationCommand:
-    def execute(self, a, b):
-        result = a * b
-        logging.info(f"Multiplication result: {result}")
-        print(f"Multiplication result: {result}")
+class MultiplyCommand(Command):
+    def __init__(self, value1, value2):
+        self.value1 = value1
+        self.value2 = value2
 
-# Example usage:
-logging.basicConfig(level=logging.INFO)
-mul_command = MultiplicationCommand()
-mul_command.execute(4, 2)
+    def execute(self):
+        result = self.value1 * self.value2
+        print(result)
