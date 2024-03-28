@@ -2,6 +2,7 @@ import pandas as pd
 import os
 
 class CalculationHistoryManager:
+
     def __init__(self, filepath='history.csv'):
         self.filepath = filepath
         # Initialize DataFrame with appropriate columns
