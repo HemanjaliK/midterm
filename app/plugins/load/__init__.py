@@ -1,17 +1,15 @@
-import pandas as pd
-import os
+from app.commands import Command
+from app.history import CalculationHistory  # Adjust the import path as necessary
 
-class HistoryManager:
-    def __init__(self, filepath='history.csv'):
-        self.filepath = filepath
-        self.history_df = None
-        self.load_history()
+class LoadHistoryCommand(Command):
+    def __init__(self, history_manager=None):
+        # If no history manager is provided, create a new instance
+        self.history_manager = history_manager if history_manager else CalculationHistory()
 
-    def load_history(self):
-        if os.path.exists(self.filepath):
-            self.history_df = pd.read_csv(self.filepath)
-            print("History loaded successfully.")
+    def execute(self):
+        history_df = self.history_manager.load_history()
+        if history_df.empty:
+            print("No history records found.")
         else:
-            print("History file not found. Starting with an empty DataFrame.")
-            self.history_df = pd.DataFrame(columns=['Operation', 'Operand1', 'Operand2', 'Result'])
-
+            print("Calculation History:")
+            print(history_df.to_string(index=False))

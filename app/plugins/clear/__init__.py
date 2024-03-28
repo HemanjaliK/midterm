@@ -1,12 +1,14 @@
-import pandas as pd
-import os
+import logging
+from app.commands import Command
+from app.history import CalculationHistory  # Ensure this import matches your project structure
 
-class HistoryManager:
-    def __init__(self, filepath='history.csv'):
-        self.filepath = filepath
-        self.history_df = pd.DataFrame(columns=['Operation', 'Operand1', 'Operand2', 'Result'])
+class ClearHistoryCommand(Command):
+    def __init__(self, history_manager=None):
+        # If no history manager is provided, create a new instance
+        self.history_manager = history_manager if history_manager else CalculationHistory()
 
-    def clear_history(self):
-        self.history_df = pd.DataFrame(columns=self.history_df.columns)
-        print("History cleared.")
-        
+    def execute(self):
+        # Simply call the clear_history method of CalculationHistory
+        self.history_manager.clear_history()
+        print("Calculation history has been cleared.")
+        logging.info("ClearHistoryCommand executed: History cleared.")

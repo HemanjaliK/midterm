@@ -1,63 +1,52 @@
 import pandas as pd
 import os
 
-class CalculationHistoryManager:
-
-    def __init__(self, filepath='history.csv'):
-        self.filepath = filepath
-        # Initialize DataFrame with appropriate columns
-        self.history_df = pd.DataFrame(columns=['Operation', 'Operand1', 'Operand2', 'Result'])
-        self.load_history()  # Load existing history, if any
+class CalculationHistory:
+    # Corrected the initialization method name from _init_ to __init__
+    def __init__(self, csv_file='./data/cal_history.csv'):
+        self.csv_file = csv_file
+        # Make sure the data directory exists
+        os.makedirs(os.path.dirname(csv_file), exist_ok=True)
+        self.history_df = self.load_history()
 
     def load_history(self):
-        """Load calculation history from a CSV file."""
-        if os.path.exists(self.filepath):
-            self.history_df = pd.read_csv(self.filepath)
-            print("History loaded successfully.")
+        if os.path.exists(self.csv_file):
+            try:
+                return pd.read_csv(self.csv_file)
+            except Exception as e:
+                print(f"Error loading history from CSV: {e}")
+                return pd.DataFrame(columns=['Operation', 'Value1', 'Value2'])
         else:
-            print("No existing history file found.")
+            return pd.DataFrame(columns=['Operation', 'Value1', 'Value2'])
 
     def save_history(self):
-        """Save the current calculation history to a CSV file."""
-        self.history_df.to_csv(self.filepath, index=False)
-        print("History saved to file.")
+        try:
+            self.history_df.to_csv(self.csv_file, index=False)
+            print(f"History saved to CSV at '{self.csv_file}'.")
+        except Exception as e:
+            print(f"Error saving history to CSV: {e}")
+
+    def add_record(self, operation, value1, value2):
+        # Create a new DataFrame for the record to be added
+        new_record_df = pd.DataFrame([[operation, value1, value2]], columns=['Operation', 'Value1', 'Value2'])
+        # Append the new record to the existing DataFrame
+        self.history_df = pd.concat([self.history_df, new_record_df], ignore_index=True)
+        # Save updated history
+        self.save_history()
 
     def clear_history(self):
-        """Clear the current calculation history."""
-        self.history_df = self.history_df.iloc[0:0]  # Clear DataFrame
-        print("History cleared.")
+        self.history_df = pd.DataFrame(columns=['Operation', 'Value1', 'Value2'])
+        # Optionally, also save the cleared history to CSV to reflect the changes immediately
+        self.save_history()
 
-    def delete_history_record(self, index):
-        """Delete a specific record from the history."""
-        if index < len(self.history_df):
-            self.history_df = self.history_df.drop(self.history_df.index[index])
-            print(f"Deleted record at index {index}.")
-        else:
-            print("Invalid index. No record deleted.")
-
-    def add_to_history(self, operation, operand1, operand2, result):
-        """Add a new calculation record to the history."""
-        new_record = {
-            'Operation': operation, 
-            'Operand1': operand1, 
-            'Operand2': operand2, 
-            'Result': result
-        }
-        self.history_df = self.history_df.append(new_record, ignore_index=True)
-
-    def view_history(self):
-        """Print the current calculation history."""
-        if self.history_df.empty:
-            print("No history available.")
-        else:
-            print(self.history_df)
-
-# Example of using the class in a REPL loop
-def main():
-    manager = CalculationHistoryManager()
-    manager.add_to_history('add', 1, 2, 3)  # Example operation
-    manager.save_history()
-    manager.view_history()
-
-if __name__ == '__main__':
-    main()
+    def delete_record(self, index):
+        try:
+            # Ensure the index is within the DataFrame's range
+            if index in self.history_df.index:
+                self.history_df.drop(index=index, inplace=True)
+                self.save_history()  # Save after deleting the record
+                print(f"Record at index {index} deleted from history.")
+            else:
+                print(f"Index {index} not found in history.")
+        except Exception as e:
+            print(f"Error deleting record from history: {e}")
