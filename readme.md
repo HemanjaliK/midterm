@@ -4,10 +4,10 @@ Command Pattern:
 
 The Command pattern is used to encapsulate a request as an object, thereby allowing for parameterization of clients with queues, requests, and operations. This pattern is visible in the implementation of **Command** and **CommandHandler** classes.
 
-- **Command (Command class):** An abstract base class that declares an interface for executing operations. See Command.
-- **ConcreteCommand (AddCommand, MultiplyCommand, etc.):**Classes that extend the Command interface to implement specific operations. See AddCommand.
-- **Invoker (CommandHandler class):** Asks the command to carry out the request. See CommandHandler.
-- **Client (App class):** Creates a ConcreteCommand object and sets its receiver. See App.
+- **Command (Command class):** An abstract base class that declares an interface for executing operations. See [Command].
+- **ConcreteCommand (AddCommand, MultiplyCommand, etc.):**Classes that extend the Command interface to implement specific operations. See [AddCommand].
+- **Invoker (CommandHandler class):** Asks the command to carry out the request. See [CommandHandler].
+- **Client (App class):** Creates a ConcreteCommand object and sets its receiver. See [App].
 
 Factory Pattern:
 
