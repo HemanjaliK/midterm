@@ -1,12 +1,12 @@
 Given the extensive code snippets and the specific request to describe the use of design patterns, environment variables, logging, and exception handling strategies within the context of a GitHub repository, here's how you can structure the explanation and documentation. 
 
-Design Patterns:
+**Design Patterns:**
 
 Command Pattern
 
 The Command pattern is used to encapsulate a request as an object, thereby allowing for parameterization of clients with queues, requests, and operations. This pattern is visible in the implementation of Command and CommandHandler classes.
 
-a. Command (Command class): An abstract base class that declares an interface for executing operations. See Command.
+a. # Command (Command class): An abstract base class that declares an interface for executing operations. See Command.
 b. ConcreteCommand (AddCommand, MultiplyCommand, etc.): Classes that extend the Command interface to implement specific operations. See AddCommand.
 c. Invoker (CommandHandler class): Asks the command to carry out the request. See CommandHandler.
 d. Client (App class): Creates a ConcreteCommand object and sets its receiver. See App.
@@ -15,13 +15,12 @@ Factory Pattern
 
 While not explicitly implemented in the provided code, the method load_plugins in App resembles a Factory method pattern by dynamically loading and instantiating plugins (commands) without specifying the exact class of objects to create.
 
-Environment Variables:
-
+**Environment Variables:**
 Environment variables are used for configuration that changes between environments; for example, 'DEVELOPMENT', 'TESTING', 'PRODUCTION'. The App class loads these variables at startup using the dotenv package and makes them available throughout the application.
 
 Usage: See the implementation in App for how environment variables are loaded and accessed.
 
-Logging:
+**Logging:**
 
 Logging is configured and used across the application to record various levels of information (INFO, ERROR, etc.), which aids in debugging and monitoring the application's runtime behavior.
 
